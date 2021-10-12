@@ -87,7 +87,7 @@ function matchPattern(pattern, actual, matches) {
     }
 }
 
-function matchNull(actual, matches) {
+function matchNull(actual, matches?) {
     if (actual !== null)
         throw new MatchError(null, actual, "not null");
 }
@@ -350,4 +350,4 @@ match.MatchError = MatchError;
 
 match.pattern = Pattern.prototype;
 
-module.exports = match;
+export = match;
