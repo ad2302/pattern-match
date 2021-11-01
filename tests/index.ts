@@ -1,4 +1,4 @@
-var match = require('../lib/match');
+import match = require('../lib/match');
 
 function sync(f) {
     return function(test) {
@@ -10,19 +10,19 @@ function sync(f) {
     };
 }
 
-exports.testNumberPass = sync(function(test) {
+export const testNumberPass = sync(function(test) {
     test.doesNotThrow(function() {
         match(42).when(42);
     });
 });
 
-exports.testNumberFail = sync(function(test) {
+export const testNumberFail = sync(function(test) {
     test.throws(function() {
         match(42).when(43);
     });
 });
 
-exports.testCases = sync(function(test) {
+export const testCases = sync(function(test) {
     test.equal(match(42, function(when) {
         when(1, function() { return "wrong 1" });
         when(2, function() { return "wrong 2" });
@@ -31,7 +31,7 @@ exports.testCases = sync(function(test) {
     }), "correct");
 });
 
-exports.testFallThrough = sync(function(test) {
+export const testFallThrough = sync(function(test) {
     test.throws(function() {
         match(42, function(when) {
             when(1, function() { return "wrong 1" });
@@ -41,7 +41,7 @@ exports.testFallThrough = sync(function(test) {
     });
 });
 
-exports.testSimpleObject = sync(function(test) {
+export const testSimpleObject = sync(function(test) {
     test.doesNotThrow(function() {
         match({ a: 42, b: "hi", c: true })
         .when({ a: match.number, b: match.string, c: match.boolean });
@@ -52,7 +52,7 @@ exports.testSimpleObject = sync(function(test) {
     });
 });
 
-exports.testSimpleArray = sync(function(test) {
+export const testSimpleArray = sync(function(test) {
     test.doesNotThrow(function() {
         match([100, 200, 300, 400, 500]).when([100]);
         match([100, 200, 300, 400, 500]).when([100, 200]);
@@ -68,7 +68,7 @@ exports.testSimpleArray = sync(function(test) {
     });
 });
 
-exports.testNaN = sync(function(test) {
+export const testNaN = sync(function(test) {
     test.doesNotThrow(function() {
         match(NaN).when(NaN);
         match(NaN).when(match.number);
@@ -84,13 +84,13 @@ exports.testNaN = sync(function(test) {
     });
 });
 
-exports.testRegExp = sync(function(test) {
+export const testRegExp = sync(function(test) {
     test.doesNotThrow(function() {
         match("anna").when(/an*a/);
     });
 });
 
-exports.testPredicate = sync(function(test) {
+export const testPredicate = sync(function(test) {
     test.doesNotThrow(function() {
         match([]).when(Array.isArray);
     });
@@ -99,7 +99,7 @@ exports.testPredicate = sync(function(test) {
     });
 });
 
-exports.testUndefined = sync(function(test) {
+export const testUndefined = sync(function(test) {
     test.doesNotThrow(function() {
         match(void 0).when(undefined);
         match(undefined).when(undefined);
@@ -110,7 +110,7 @@ exports.testUndefined = sync(function(test) {
     });
 });
 
-exports.testNull = sync(function(test) {
+export const testNull = sync(function(test) {
     test.doesNotThrow(function() {
         match(null).when(null);
     });
@@ -119,7 +119,7 @@ exports.testNull = sync(function(test) {
     });
 });
 
-exports.testAny = sync(function(test) {
+export const testAny = sync(function(test) {
     test.doesNotThrow(function() {
         match(undefined).when(match.any);
         match(null).when(match.any);
@@ -136,7 +136,7 @@ exports.testAny = sync(function(test) {
     });
 });
 
-exports.testVar = sync(function(test) {
+export const testVar = sync(function(test) {
     test.equal("ehrmagehrd! jervehrscrerptz",
                match({ a: "ehrmagehrd", b: "! ", c: "jervehrscrerptz" })
                .when({
@@ -174,7 +174,7 @@ exports.testVar = sync(function(test) {
     });
 });
 
-exports.testRange = sync(function(test) {
+export const testRange = sync(function(test) {
     test.doesNotThrow(function() {
         match(3).when(match.range(0, 10));
         match(0).when(match.range(0, 10));
@@ -187,7 +187,7 @@ exports.testRange = sync(function(test) {
     });
 });
 
-exports.testAll = sync(function(test) {
+export const testAll = sync(function(test) {
     test.doesNotThrow(function() {
         match(100).when(match.all(match.number,
                                   match.integer,
@@ -203,7 +203,7 @@ exports.testAll = sync(function(test) {
     });
 });
 
-exports.testSome = sync(function(test) {
+export const testSome = sync(function(test) {
     test.doesNotThrow(function() {
         match("hello").when(match.some(match.string,
                                        match.number,
@@ -225,7 +225,7 @@ exports.testSome = sync(function(test) {
 
 var MAX_INTEGER = 9007199254740991;
 
-exports.testInteger = sync(function(test) {
+export const testInteger = sync(function(test) {
     test.doesNotThrow(function() {
         match(0).when(match.integer);
         match(-0).when(match.integer);
@@ -249,7 +249,7 @@ exports.testInteger = sync(function(test) {
     });
 });
 
-exports.testInt32 = sync(function(test) {
+export const testInt32 = sync(function(test) {
     test.doesNotThrow(function() {
         match(0).when(match.int32);
         match(1).when(match.int32);
@@ -269,7 +269,7 @@ exports.testInt32 = sync(function(test) {
     });
 });
 
-exports.testUint32 = sync(function(test) {
+export const testUint32 = sync(function(test) {
     test.doesNotThrow(function() {
         match(0).when(match.uint32);
         match(1).when(match.uint32);
@@ -288,7 +288,7 @@ exports.testUint32 = sync(function(test) {
     });
 });
 
-exports.testFinite = sync(function(test) {
+export const testFinite = sync(function(test) {
     test.doesNotThrow(function() {
         match(MAX_INTEGER).when(match.finite);
         match(Number.MAX_VALUE).when(match.finite);
@@ -306,7 +306,7 @@ exports.testFinite = sync(function(test) {
     });
 });
 
-exports.testSigns = sync(function(test) {
+export const testSigns = sync(function(test) {
     test.doesNotThrow(function() {
         match(-0).when(match.nonnegative);
         match(0).when(match.nonnegative);
@@ -327,7 +327,7 @@ exports.testSigns = sync(function(test) {
     });
 });
 
-exports.testBodyThisArg = sync(function(test) {
+export const testBodyThisArg = sync(function(test) {
     var obj = {
         xyzzx: "XYZZX"
     };
@@ -336,14 +336,14 @@ exports.testBodyThisArg = sync(function(test) {
     }, obj));
 });
 
-exports.testBodyDefaultThis = sync(function(test) {
-    test.equal(global, match(1, function(when) {
+export const testBodyDefaultThis = sync(function(test) {
+    test.equal(this, match(1, function(when) {
         var self = this;
         when(1, function() { return self });
     }));
 });
 
-exports.testTemplateThisArg = sync(function(test) {
+export const testTemplateThisArg = sync(function(test) {
     var obj = {
         xyzzx: "XYZZX"
     };
@@ -352,8 +352,8 @@ exports.testTemplateThisArg = sync(function(test) {
     }, { amITheGlobalObject: false }));
 });
 
-exports.testTemplateDefaultThis = sync(function(test) {
-    test.equal(global, match(1, function(when) {
+export const testTemplateDefaultThis = sync(function(test) {
+    test.equal(this, match(1, function(when) {
         when(1, function() { return this; });
     }, { amITheGlobalObject: false }));
 });

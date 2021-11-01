@@ -1,4 +1,7 @@
-function match(actual, body, thisArg) {
+type When = (a:unknown ,b: MatchCallback ,c?: unknown) => void
+type MatchCallback = (b:When) => void
+
+function match(actual?:unknown, body?:  MatchCallback , thisArg?:unknown) {
     // If body is not provided, then do a single-case ("irrefutable") match.
     if (typeof body === 'undefined') {
         return {
@@ -17,7 +20,7 @@ function match(actual, body, thisArg) {
     var cases = [];
 
     if (typeof thisArg === 'undefined')
-        thisArg = global;
+        thisArg = this;
 
     body.call(thisArg, function(pattern, template, thisArg) {
         cases.push({
@@ -121,28 +124,28 @@ function matchObject(obj, actual, matches) {
     }
 }
 
-function matchString(str, actual) {
+function matchString(str:string, actual:unknown) {
     if (typeof actual !== 'string')
         throw new MatchError(str, actual, "not a string");
     if (actual !== str)
         throw new MatchError(str, actual, "wrong string value");
 }
 
-function matchRegExp(re, actual) {
+function matchRegExp(re:RegExp, actual:unknown) {
     if (typeof actual !== 'string')
         throw new MatchError(re, actual, "not a string");
     if (!re.test(actual))
         throw new MatchError(re, actual, "regexp pattern match failed");
 }
 
-function matchNumber(num, actual) {
+function matchNumber(num:number, actual:unknown) {
     if (typeof actual !== 'number')
         throw new MatchError(num, actual, "not a number");
     if (actual !== num)
         throw new MatchError(num, actual, "wrong number value");
 }
 
-function matchNaN(actual) {
+function matchNaN(actual:unknown) {
     if (typeof actual !== 'number' || actual === actual)
         throw new MatchError(NaN, actual, "not NaN");
 }
@@ -152,7 +155,7 @@ function matchPredicate(pred, actual) {
         throw new MatchError(pred, actual, "predicate failed");
 }
 
-function matchBoolean(bool, actual) {
+function matchBoolean(bool:boolean, actual:unknown) {
     if (typeof actual !== 'boolean')
         throw new MatchError(bool, actual, "not a boolean");
     if (actual !== bool)
@@ -167,7 +170,7 @@ function matchUndefined(actual) {
 function Pattern() {
 }
 
-function Var(name, pattern) {
+function Var(name: string, pattern?: (a: unknown) => boolean) {
     this._name = name;
     this._pattern = typeof pattern === 'undefined' ? Any : pattern;
 }
@@ -183,7 +186,7 @@ var Any = Object.create(Pattern.prototype);
 
 Any.match = function Any_match(actual) { };
 
-match.var = function(name, pattern) {
+match.var = function(name:string, pattern?: (a:unknown) => boolean) {
     return new Var(name, pattern);
 };
 
@@ -307,8 +310,8 @@ All.prototype.match = function(actual, matches) {
     }
 };
 
-match.all = function() {
-    return new All(arguments);
+match.all = function(...args) {
+    return new All(args);
 };
 
 function Some(patterns) {
@@ -342,8 +345,8 @@ Some.prototype.match = function(actual, matches) {
     throw new MatchError("no alternates matched", actual, this);
 };
 
-match.some = function() {
-    return new Some(arguments);
+match.some = function(...args) {
+    return new Some(args);
 };
 
 match.MatchError = MatchError;
