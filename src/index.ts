@@ -1,9 +1,9 @@
 type When = (a: unknown, b: MatchCallback, c?: unknown) => void;
-type MatchCallback = (b: When) => void;
+type MatchCallback = (b: unknown) => void;
 
 export function match(
   actual?: unknown,
-  body?: MatchCallback,
+  body?: (when:When) => void,
   thisArg?: unknown,
 ) {
   // If body is not provided, then do a single-case ("irrefutable") match.
