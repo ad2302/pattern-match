@@ -1,4 +1,4 @@
-import {match} from '../src/match';
+import {match} from '../src';
 import tap from 'tap';
 
 tap.test('testNumberPass', async () => {
@@ -101,6 +101,7 @@ tap.test('testPredicate', async () => {
 
 tap.test('testUndefined', async () => {
 	tap.doesNotThrow(() => {
+		// eslint-disable-next-line no-void
 		match(void 0).when(undefined);
 		match(undefined).when(undefined);
 		match().when(undefined);
@@ -176,6 +177,7 @@ tap.test('testVar', async () => {
 	);
 
 	tap.throws(() => {
+		// eslint-disable-next-line no-unused-expressions
 		match(42).when(match.var('x', match.string)).x;
 	});
 });
@@ -256,6 +258,7 @@ tap.test('testInt32', async () => {
 		match(-10).when(match.int32);
 		match(-100).when(match.int32);
 		match(-1000).when(match.int32);
+		// eslint-disable-next-line no-mixed-operators
 		match(2 ** 31 - 1).when(match.int32);
 		match(-(2 ** 31)).when(match.int32);
 	});
@@ -272,6 +275,7 @@ tap.test('testUint32', async () => {
 		match(10).when(match.uint32);
 		match(100).when(match.uint32);
 		match(1000).when(match.uint32);
+		// eslint-disable-next-line no-mixed-operators
 		match(2 ** 32 - 1).when(match.uint32);
 	});
 	tap.throws(() => {

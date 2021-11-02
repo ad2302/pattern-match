@@ -3,7 +3,7 @@
       "allowJs": true,
       "importHelpers": true,
       "esModuleInterop": true,
-      "outDir": "dist",
+      "outDir": "lib",
       "moduleResolution": "Node",
       "module": "ESNext",
       "sourceMap": false,
@@ -21,6 +21,5 @@
         "module": "CommonJS"
       }
     },
-    "include": ["fixtures"],
     "exclude": ["rollup.config.ts"]
   }
