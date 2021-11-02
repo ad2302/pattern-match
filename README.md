@@ -13,7 +13,7 @@ Here's a simple example of using pattern matching to analyze an AST
 for a hypothetical language:
 
 ```javascript
-var match = require('pattern-match');
+import {match} from '@ad2302/pattern-match';
 
 match(ast, function(when) {
     when({
@@ -44,7 +44,7 @@ match(ast, function(when) {
 This will get sweeter in ES6 with destructuring:
 
 ```javascript
-var match = require('pattern-match');
+import {match} from '@ad2302/pattern-match';
 
 match(ast, function(when) {
     when({
@@ -75,7 +75,7 @@ match(ast, function(when) {
 And sweeter still with ES6 arrow-functions:
 
 ```javascript
-var match = require('pattern-match');
+import {match} from '@ad2302/pattern-match';
 
 match(ast, (when) => {
     when({
